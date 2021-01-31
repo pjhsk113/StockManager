@@ -32,29 +32,31 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { IStock } from "./types";
+import { defualtStock } from "./type";
 
-export enum Sector {
-  IT = 'IT',
-  CAR = '자동차',
-  FINANCE = '금융',
-  BIO = '바이오'
-}
-
-export interface IStock {
-  id?: string,
-  name: string,
-  sector: Sector,
-  price : number,
-  quantity: number
-}
-
-export const defualtStock: IStock = {
-  id: '',
-  name: '',
-  sector: Sector.IT,
-  price: 0,
-  quantity: 0
-};
+// export enum Sector {
+//   IT = 'IT',
+//   CAR = '자동차',
+//   FINANCE = '금융',
+//   BIO = '바이오'
+// }
+//
+// export interface IStock {
+//   id?: string,
+//   name: string,
+//   sector: Sector,
+//   price : number,
+//   quantity: number
+// }
+//
+// export const defualtStock: IStock = {
+//   id: '',
+//   name: '',
+//   sector: Sector.IT,
+//   price: 0,
+//   quantity: 0
+// };
 
 @Component
 export default class HelloWorld extends Vue {
