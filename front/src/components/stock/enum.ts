@@ -1,5 +1,5 @@
 export enum Sector {
-  IT  = 'IT',
+  IT = 'IT',
   CAR = '자동차',
   FINANCE = '금융',
   BIO = '바이오'
