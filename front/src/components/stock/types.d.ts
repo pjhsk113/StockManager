@@ -5,5 +5,6 @@ export interface IStock {
   name: string,
   sector: Sector,
   price : number,
-  quantity: number
+  quantity: number,
+  ratio: number
 }
