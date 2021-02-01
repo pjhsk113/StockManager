@@ -1,17 +1,17 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Stock Manager"/>
+    <StockCalc msg="Stock Manager"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/stock/HelloWorld.vue'; // @ is an alias to /src
+import StockCalc from '@/components/stock/StockCalc.vue'; // @ is an alias to /src
 
 @Component({
   components: {
-    HelloWorld
+    StockCalc
   }
 })
 export default class Home extends Vue {}

@@ -5,7 +5,7 @@
       class="button-new-tag"
       size="small"
       @click="showForm">
-      + New Form
+      + 종목 추가
     </el-button>
     <el-row
       class="el-row-margin">
@@ -44,7 +44,46 @@
     <el-button
       class="success"
       @click="getResult">
-      확인
+      비중 확인
+    </el-button>
+    <el-table
+      v-if="tableVisible"
+      :data="formItemList">
+      <el-table-column
+        key="index"
+        type="index"
+        label="No"
+        align="center"/>
+      <el-table-column
+        key="name"
+        prop="name"
+        label="주식명"
+        align="center"/>
+      <el-table-column
+        key="sector"
+        prop="sector"
+        label="업종"
+        align="center"/>
+      <el-table-column
+        key="price"
+        prop="price"
+        label="가격"
+        align="center"/>
+      <el-table-column
+        key="quantity"
+        prop="quantity"
+        label="수량"
+        align="center"/>
+      <el-table-column
+        key="ratio"
+        prop="ratio"
+        label="비중"
+        align="center"/>
+    </el-table>
+    <el-button
+      v-if="tableVisible"
+      @click="closeTable">
+      닫기
     </el-button>
   </div>
 </template>
@@ -56,17 +95,17 @@ import { defualtStock } from './type'
 import { cloneDeep } from 'lodash'
 
 @Component
-export default class HelloWorld extends Vue {
+export default class StockCalc extends Vue {
   @Prop() private msg!: string;
 
-  private formItem: IStock = defualtStock
   private formItemOrigin: IStock = cloneDeep(defualtStock)
   private formItemList: IStock[] = []
-  private formVisible = false;
+  private tableVisible = false;
   private totalPrice = 0;
   private index: number = 0;
 
   private getResult () {
+    this.tableVisible = true;
     this.getRatio()
     // 일부값/전체값 * 100
   }
@@ -93,10 +132,14 @@ export default class HelloWorld extends Vue {
   }
 
   private showForm () {
-    const cloneObj = cloneDeep(this.formItemOrigin);
+    const cloneObj: IStock = cloneDeep(this.formItemOrigin);
     this.index++;
     cloneObj.id = this.index;
     this.formItemList.push(cloneObj);
+  }
+
+  private closeTable() {
+    this.tableVisible = false;
   }
 }
 
