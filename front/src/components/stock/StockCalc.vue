@@ -115,7 +115,6 @@ export default class StockCalc extends Vue {
   private getResult () {
     this.tableVisible = true;
     this.getRatio()
-    console.log(this.formItemList);
     // 일부값/전체값 * 100
   }
 
