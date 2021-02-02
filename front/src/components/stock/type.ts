@@ -2,7 +2,7 @@ import { IStock } from '@/components/stock/types'
 import { Sector } from '@/components/stock/enum'
 
 export const defualtStock: IStock = {
-  id: '',
+  id: 0,
   name: '',
   sector: Sector.IT,
   price: 0,
