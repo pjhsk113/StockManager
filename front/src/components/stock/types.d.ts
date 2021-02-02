@@ -1,7 +1,7 @@
 import { Sector } from '@/api/enum';
 
 export interface IStock {
-  id?: string,
+  id?: number,
   name: string,
   sector: Sector,
   price : number,
