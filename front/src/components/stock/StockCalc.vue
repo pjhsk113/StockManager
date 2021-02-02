@@ -21,8 +21,14 @@
             v-model="item.name"/>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="item.sector"/>
+          <el-select
+            v-model="item.sector">
+            <el-option
+              v-for="sector in getSector"
+              :key="sector"
+              :value="sector">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-input-number
@@ -48,7 +54,8 @@
     </el-button>
     <el-table
       v-if="tableVisible"
-      :data="formItemList">
+      :data="formItemList"
+      class="el-row-margin">
       <el-table-column
         key="index"
         type="index"
@@ -93,6 +100,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { IStock } from './types'
 import { defualtStock } from './type'
 import { cloneDeep } from 'lodash'
+import {Sector} from "@/components/stock/enum";
 
 @Component
 export default class StockCalc extends Vue {
@@ -107,7 +115,12 @@ export default class StockCalc extends Vue {
   private getResult () {
     this.tableVisible = true;
     this.getRatio()
+    console.log(this.formItemList);
     // 일부값/전체값 * 100
+  }
+
+  get getSector() {
+    return Sector;
   }
 
   private getTotalPrice() {
@@ -127,7 +140,11 @@ export default class StockCalc extends Vue {
 
     for (let i = 0; i < length; i++) {
       const price = this.formItemList[i].price * this.formItemList[i].quantity;
-      this.formItemList[i].ratio = ((price / this.totalPrice) * 100).toFixed(2);
+      if (price === 0) {
+        this.formItemList[i].ratio = 0;
+      } else {
+        this.formItemList[i].ratio = Number(((price / this.totalPrice) * 100).toFixed(2));
+      }
     }
   }
 
