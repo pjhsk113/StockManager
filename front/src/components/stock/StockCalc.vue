@@ -215,6 +215,20 @@ export default class StockCalc extends Vue {
     this.sectorRatioData = [['sector', 'ratio']];
   }
 
+  private sectorRatio() {
+    const d = this.formItemList.reduce((acc, curr)=>{
+      if (!(curr.sector in acc))
+        acc[curr.sector] = 0
+      acc[curr.sector] += curr.price * curr.quantity;
+      return acc;
+    }, {})
+
+    for (const [key, value] of Object.entries(d)) {
+      this.sectorRatioData.push([key, value]);
+    }
+  }
+
+
 }
 
 </script>
