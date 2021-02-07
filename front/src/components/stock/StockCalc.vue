@@ -15,12 +15,15 @@
         ref="formItemRef"
         style="min-width: 1020px;"
         :inline="true"
+        label-position="top"
         :model="item">
-        <el-form-item>
+        <el-form-item
+          label="종목명">
           <el-input
             v-model="item.name"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          label="업종">
           <el-select
             v-model="item.sector">
             <el-option
@@ -30,17 +33,20 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          label="가격">
           <el-input-number
             v-model="item.price"
             :controls="false"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          label="보유량">
           <el-input-number
             v-model="item.quantity"
             :controls="false"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item
+          label="비중">
           <el-input
             v-model="item.ratio"
             disabled/>
@@ -87,14 +93,30 @@
         label="비중"
         align="center"/>
     </el-table>
-    <GChart
-      type="PieChart"
-      :data="chartData"
-      :options="chartOptions"
-      :event="chartEvents"
-      style="width: 900px; height: 500px;"
-    />
-    <pie-chart :data="chartData1" :options="chartOptions1"></pie-chart>
+    <el-row>
+      <el-col
+        :span="12">
+        <GChart
+          v-if="tableVisible"
+          type="PieChart"
+          :data="sectorRatioData"
+          :options="chartOptions"
+          :event="chartEvents"
+          style="width: 500px; height: 500px"
+        />
+      </el-col>
+       <el-col
+         :span="12">
+         <GChart
+           v-if="tableVisible"
+           type="PieChart"
+           :data="sectorDetailData"
+           :options="chartOptions"
+           :event="chartEvents"
+         />
+       </el-col>
+    </el-row>
+
     <el-button
       v-if="tableVisible"
       @click="closeTable">
@@ -110,13 +132,11 @@ import { defualtStock } from './type'
 import { cloneDeep } from 'lodash'
 import {Sector} from "@/components/stock/enum";
 import { GChart } from 'vue-google-charts';
-import PieChart from '@/components/chart/PieChart'
 
 
 @Component({
   components: {
     GChart,
-    PieChart
   }
 })
 export default class StockCalc extends Vue {
@@ -127,14 +147,10 @@ export default class StockCalc extends Vue {
   private tableVisible = false;
   private totalPrice = 0;
   private index: number = 0;
-  private chartData = [
-    ['Task', 'Hours per Day'],
-    ['Work',     11],
-    ['Eat',      2],
-    ['Commute',  2],
-    ['Watch TV', 2],
-    ['Sleep',    7]
-  ];
+
+  private sectorRatioData = [['sector', 'ratio']];
+  private sectorDetailData = [['name', 'detail']];
+
   private chartOptions = {
     chart: {
       title: 'Company Performance',
@@ -142,20 +158,6 @@ export default class StockCalc extends Vue {
     },
     is3D: true,
   }
-  private chartData1 = {
-    hoverBackgroundColor: "red",
-    hoverBorderWidth: 10,
-    labels: ["Green", "Red", "Blue"],
-    datasets: [
-      {
-        label: "Data One",
-        backgroundColor: ["#41B883", "#E46651", "#00D8FF"],
-        data: [1, 10, 5]
-      }
-    ]
-  };
-
-  private chartOptions1 = { hoverBorderWidth: 10 };
 
   private chartEvents = {
     click : () => {
@@ -164,8 +166,11 @@ export default class StockCalc extends Vue {
   }
 
   private getResult () {
+    this.sectorRatioData = [['sector', 'ratio']];
     this.tableVisible = true;
-    this.getRatio()
+    this.getRatio();
+    this.sectorRatio();
+    this.sectorDetailRatio();
     // 일부값/전체값 * 100
   }
 
@@ -207,8 +212,9 @@ export default class StockCalc extends Vue {
 
   private closeTable() {
     this.tableVisible = false;
-    console.log(12);
+    this.sectorRatioData = [['sector', 'ratio']];
   }
+
 }
 
 </script>
