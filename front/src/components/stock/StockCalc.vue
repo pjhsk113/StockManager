@@ -228,7 +228,17 @@ export default class StockCalc extends Vue {
     }
   }
 
+  private sectorDetailRatio() {
+    const data = this.formItemList.filter(item => item.sector === Sector.IT);
 
+    for (let i = 0; i < data.length; i++) {
+      const total = data[i].price * data[i].quantity;
+      console.log(data[i].name);
+      console.log(total);
+      this.sectorDetailData.push([data[i].name, total]);
+      console.log(this.sectorDetailData);
+    }
+  }
 }
 
 </script>
