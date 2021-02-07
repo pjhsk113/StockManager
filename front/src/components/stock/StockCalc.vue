@@ -167,6 +167,7 @@ export default class StockCalc extends Vue {
 
   private getResult () {
     this.sectorRatioData = [['sector', 'ratio']];
+    this.sectorDetailData = [['name', 'detail']];
     this.tableVisible = true;
     this.getRatio();
     this.sectorRatio();
@@ -213,6 +214,7 @@ export default class StockCalc extends Vue {
   private closeTable() {
     this.tableVisible = false;
     this.sectorRatioData = [['sector', 'ratio']];
+    this.sectorDetailData = [['name', 'detail']];
   }
 
   private sectorRatio() {
