@@ -58,61 +58,25 @@
       @click="getResult">
       비중 확인
     </el-button>
-    <el-table
-      v-if="tableVisible"
-      :data="formItemList"
-      class="el-row-margin">
-      <el-table-column
-        key="index"
-        type="index"
-        label="No"
-        align="center"/>
-      <el-table-column
-        key="name"
-        prop="name"
-        label="주식명"
-        align="center"/>
-      <el-table-column
-        key="sector"
-        prop="sector"
-        label="업종"
-        align="center"/>
-      <el-table-column
-        key="price"
-        prop="price"
-        label="가격"
-        align="center"/>
-      <el-table-column
-        key="quantity"
-        prop="quantity"
-        label="수량"
-        align="center"/>
-      <el-table-column
-        key="ratio"
-        prop="ratio"
-        label="비중"
-        align="center"/>
-    </el-table>
     <el-row>
       <el-col
-        :span="12">
+        :span="10">
         <GChart
           v-if="tableVisible"
           type="PieChart"
           :data="sectorRatioData"
-          :options="chartOptions"
-          :event="chartEvents"
-          style="width: 500px; height: 500px"
+          :options="sectorRatioOptions"
+          style="height: 500px;"
         />
       </el-col>
        <el-col
-         :span="12">
+         :span="14">
          <GChart
            v-if="tableVisible"
            type="PieChart"
            :data="sectorDetailData"
-           :options="chartOptions"
-           :event="chartEvents"
+           :options="sectorDetailOptions"
+           style="height: 300px;"
          />
        </el-col>
     </el-row>
@@ -151,18 +115,14 @@ export default class StockCalc extends Vue {
   private sectorRatioData = [['sector', 'ratio']];
   private sectorDetailData = [['name', 'detail']];
 
-  private chartOptions = {
-    chart: {
-      title: 'Company Performance',
-      subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-    },
+  private sectorRatioOptions = {
+    title: '섹터별 비중',
     is3D: true,
   }
 
-  private chartEvents = {
-    click : () => {
-      this.closeTable();
-    }
+  private sectorDetailOptions = {
+    title: '',
+    is3D: true,
   }
 
   private getResult () {
@@ -234,7 +194,7 @@ export default class StockCalc extends Vue {
     const data = this.formItemList.filter(item => item.sector === Sector.IT);
 
     for (let i = 0; i < data.length; i++) {
-      const total = data[i].price * data[i].quantity;
+      const total: number = data[i].price * data[i].quantity;
       this.sectorDetailData.push([data[i].name, total]);
     }
   }
