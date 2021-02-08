@@ -71,13 +71,17 @@
       </el-col>
        <el-col
          :span="14">
-         <GChart
-           v-if="tableVisible"
-           type="PieChart"
-           :data="sectorDetailData"
-           :options="sectorDetailOptions"
-           style="height: 300px;"
-         />
+         <div
+          v-for="(item, index) in sectorDetailClone"
+          :key="item[0]">
+           <GChart
+             v-if="tableVisible"
+             type="PieChart"
+             :data="getDetailData(index)"
+             :options="getChartOptions(item)"
+             style="height: 300px;"
+           />
+         </div>
        </el-col>
     </el-row>
 
@@ -90,12 +94,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
-import { IStock } from './types'
-import { defualtStock } from './type'
-import { cloneDeep } from 'lodash'
+import {Component, Prop, Vue} from 'vue-property-decorator'
+import {IStock} from './types'
+import {defualtStock} from './type'
+import {cloneDeep} from 'lodash'
 import {Sector} from "@/components/stock/enum";
-import { GChart } from 'vue-google-charts';
+import {GChart} from 'vue-google-charts';
 
 
 @Component({
@@ -111,9 +115,11 @@ export default class StockCalc extends Vue {
   private tableVisible = false;
   private totalPrice = 0;
   private index: number = 0;
+  private sectorCount: number = 0;
 
   private sectorRatioData = [['sector', 'ratio']];
   private sectorDetailData = [['name', 'detail']];
+  private sectorDetailClone = [];
 
   private sectorRatioOptions = {
     title: '섹터별 비중',
@@ -128,6 +134,7 @@ export default class StockCalc extends Vue {
   private getResult () {
     this.sectorRatioData = [['sector', 'ratio']];
     this.sectorDetailData = [['name', 'detail']];
+    this.sectorDetailClone = [];
     this.tableVisible = true;
     this.getRatio();
     this.sectorRatio();
@@ -175,6 +182,7 @@ export default class StockCalc extends Vue {
     this.tableVisible = false;
     this.sectorRatioData = [['sector', 'ratio']];
     this.sectorDetailData = [['name', 'detail']];
+    this.sectorDetailClone = [];
   }
 
   private sectorRatio() {
@@ -187,10 +195,12 @@ export default class StockCalc extends Vue {
 
     for (const [key, value] of Object.entries(d)) {
       this.sectorRatioData.push([key, value]);
+      this.sectorDetailClone.push([key, value]);
     }
   }
 
   private sectorDetailRatio() {
+    this.sectorCount = this.sectorRatioData.length - 1;
     const data = this.formItemList.filter(item => item.sector === Sector.IT);
 
     for (let i = 0; i < data.length; i++) {
@@ -198,6 +208,7 @@ export default class StockCalc extends Vue {
       this.sectorDetailData.push([data[i].name, total]);
     }
   }
+
 }
 
 </script>
