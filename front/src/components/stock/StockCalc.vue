@@ -222,6 +222,13 @@ export default class StockCalc extends Vue {
     return detailData;
   }
 
+  private getChartOptions(item: any) {
+    return {
+      title: item[0],
+      is3D: true,
+    };
+  }
+
 }
 
 </script>
