@@ -60,7 +60,8 @@
     </el-button>
     <el-row>
       <el-col
-        :span="10">
+        :span="12"
+        align="right">
         <GChart
           v-if="tableVisible"
           type="PieChart"
@@ -70,7 +71,7 @@
         />
       </el-col>
        <el-col
-         :span="14">
+         :span="12">
          <div
           v-for="(item, index) in sectorDetailClone"
           :key="item[0]">
@@ -79,7 +80,7 @@
              type="PieChart"
              :data="getDetailData(index)"
              :options="getChartOptions(item)"
-             style="height: 300px;"
+             style="height: 350px;"
            />
          </div>
        </el-col>
@@ -123,11 +124,6 @@ export default class StockCalc extends Vue {
 
   private sectorRatioOptions = {
     title: '섹터별 비중',
-    is3D: true,
-  }
-
-  private sectorDetailOptions = {
-    title: '',
     is3D: true,
   }
 
@@ -189,7 +185,7 @@ export default class StockCalc extends Vue {
     const d = this.formItemList.reduce((acc, curr)=>{
       if (!(curr.sector in acc))
         acc[curr.sector] = 0
-      acc[curr.sector] += curr.price * curr.quantity;
+        acc[curr.sector] += curr.price * curr.quantity;
       return acc;
     }, {})
 
@@ -224,7 +220,7 @@ export default class StockCalc extends Vue {
   private getChartOptions(item: any) {
     return {
       title: item[0],
-      is3D: true,
+      // is3D: true,
     };
   }
 
