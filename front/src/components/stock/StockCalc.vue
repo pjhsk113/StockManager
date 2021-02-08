@@ -210,15 +210,14 @@ export default class StockCalc extends Vue {
   }
 
   private getDetailData (index: number) {
-    console.log('index : ', index);
     const sector = this.formItemList.filter(item => item.sector === this.sectorRatioData[index+1][0]);
-    console.log(sector);
     const detailData = [['name', 'detail']];
+
     for (let i = 0; i < sector.length; i++) {
       const total: number = sector[i].price * sector[i].quantity;
       detailData.push([sector[i].name, total]);
     }
-    console.log('dettails: ', detailData);
+
     return detailData;
   }
 
