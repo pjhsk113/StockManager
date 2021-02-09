@@ -85,12 +85,17 @@
          </div>
        </el-col>
     </el-row>
-
     <el-button
       v-if="tableVisible"
       @click="closeTable">
       닫기
     </el-button>
+    <vue-csv-import
+      v-slot="{file}"
+      v-model="csv"
+      :fields="{name: {required: false, label: 'Name'}, age: {required: true, label: 'Age'}}"
+    >
+    </vue-csv-import>
   </div>
 </template>
 
@@ -101,11 +106,13 @@ import {defualtStock} from './type'
 import {cloneDeep} from 'lodash'
 import {Sector} from "@/components/stock/enum";
 import {GChart} from 'vue-google-charts';
+import {VueCsvImport} from 'vue-csv-import';
 
 
 @Component({
   components: {
     GChart,
+    VueCsvImport
   }
 })
 export default class StockCalc extends Vue {
