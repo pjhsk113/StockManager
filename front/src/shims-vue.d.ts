@@ -4,3 +4,4 @@ declare module '*.vue' {
 }
 
 declare module 'vue-google-chars';
+declare module 'vue-csv-import';
